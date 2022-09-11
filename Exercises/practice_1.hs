@@ -33,6 +33,7 @@ findLeapYear year =
 
 
 -- EVERYTHING MUST BE AS FUNCTION BE CALLED IN MAIN
+main :: IO()
 main = do 
 
     -- task number 1
@@ -55,7 +56,7 @@ main = do
     putStr "\n"
     -- task number 4 
     putStr "\n"
-    putStrLn "The Euclidian distance is:"
+    putStrLn "Is the year leap or not?"
     print(findLeapYear 2023)
     print(findLeapYear 1852)
     print(findLeapYear 2000)
