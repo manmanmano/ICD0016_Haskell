@@ -17,7 +17,7 @@ calculateArea radius = radius ** 2 * pi
 
 -- 3. calculate euclidian distance between two points (x1, y1) and (x2, y2)
 findEuclidianDistance :: Double -> Double -> Double -> Double -> Double 
-findEuclidianDistance x2 x1 y2 y1 = sqrt(x2 ** 2 - x1 ** 2 + y2 ** 2 - y1 ** 2)
+findEuclidianDistance x2 x1 y2 y1 = sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 
 -- 4. find if year is leap or not
