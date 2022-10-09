@@ -1,4 +1,8 @@
--- define a new datatype month
+import Data.Map (Map)
+import qualified Data.Map as M
+
+
+-- task 1
 data Month=Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec
     deriving(Eq, Show)
 
@@ -14,30 +18,45 @@ spring month
 
 sameStart :: Month -> Month -> Int
 sameStart monthX monthY
-    | head[monthX] == head[monthY] = 1
+    | head(show monthX) == head(show monthY) = 1
     | otherwise = 0
 
 
-isDivisible n = n `mod` 3 == 0 && n `mod` 5 == 0
+--task 2
+-- book name, author name, isbn number, year of publishing, version number
+
+
+-- task 3
+isDivisibleBy5and3 n = n `mod` 3 == 0 && n `mod` 5 == 0
 
 removeDivisibles :: [Int] -> [Int]
-removeDivisibles = filter isDivisible
+removeDivisibles = filter isDivisibleBy5and3
+
+
+-- task 4
+myMap :: Integer -> Map Integer[Integer]
+myMap n = M.fromList(map multiplyByFour[1..n])
+    where multiplyByFour x = (x, [x * 4])
 
 
 main :: IO()
 main = do
     -- task 1, part 1
-    putStr "Is January springtime? "
+    putStr "\nIs January springtime? "
     print(spring Jan)
     putStr "Is May springtime? "
     print(spring May)
 
     -- task 2, part 1
-    putStr "Do May and March start with the same letter? "
+    putStr "\nDo May and March start with the same letter? "
     print(sameStart May Mar)
     putStr "Do February and September start with the same letter? "
     print(sameStart Feb Sep)
 
     -- task 3 
-    putStr "Divisibles by 3 and 5: "
-    print (removeDivisibles [5, 10 , 15, 20, 25, 30])
+    putStr "\nDivisibles by 3 and 5: "
+    print (removeDivisibles [5, 10, 15, 20, 25, 30, 45, 60, 110])
+
+    -- task 4 
+    putStrLn "\nMy map: "
+    print(myMap 4)
