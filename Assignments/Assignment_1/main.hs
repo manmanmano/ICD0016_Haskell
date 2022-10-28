@@ -43,6 +43,6 @@ main = do
     print (toLength 2 strings)
     print (toLength 3 strings)
     --task 2
-    let palindromes = ["abba", "cat", "racecar", "yes"]
+    let palindromes = ["abba", "cat", "racecar", "yes", "kayak", "dog"]
     putStrLn "\nPalindrome halfs: "
     print (palindromeHalfs palindromes)
