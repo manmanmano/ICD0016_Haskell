@@ -1,3 +1,4 @@
+import Control.Arrow (Arrow(first))
 -- TASK 1
 combineStrings :: [String] -> [String]
 combineStrings [] = []
@@ -17,16 +18,20 @@ palindrome string
     | otherwise = False
 
 
-firstHalf :: String -> String
-firstHalf x 
-    | odd (length x) = take oddHalf x
-    | otherwise = take evenHalf x
+firstHalf :: [String] -> [String]
+firstHalf [] = []
+firstHalf (x:xs) =
+    if odd(take (length x))
     where oddHalf = (length x + 1) `div` 2
+          evenHalf = length x `div` 2
+--    | odd (take (length x) x) = take oddHalf x : firstHalf xs
+--    | otherwise = take evenHalf x : firstHalf xs
+--    where oddHalf = (length x + 1) `div` 2
           evenHalf = length x `div` 2
 
 
-palindromeHalfs :: [String] -> [String]
-palindromeHalfs xs = map firstHalf (filter palindrome xs)
+--palindromeHalfs :: [String] -> [String]
+--palindromeHalfs xs = map firstHalf (filter palindrome xs)
 
 
 --TASK 3
@@ -45,4 +50,4 @@ main = do
     --task 2
     let palindromes = ["abba", "cat", "racecar", "yes"]
     putStrLn "\nPalindrome halfs: "
-    print (palindromeHalfs palindromes)
+    print (firstHalf palindromes)
