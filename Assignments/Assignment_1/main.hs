@@ -66,9 +66,10 @@ main = do
     -- task 3
     let swedbank = Map.fromList[("Bob", 100), ("Mike", 50)]
     let seb = Map.fromList[("Mari", 325), ("Paul", 290)]
-    let lhv = Map.fromList[("Frank", 15), ("John", 31)]
     putStrLn "\nTransfers: "
     print (transfer "Bob" "Mike" 20 swedbank)
     print (transfer "Paul" "Mari" 133 seb)
-    print (transfer "Frank" "John" 12 lhv)
-    print (transfer "Uku" "John" 12 lhv)
+    print (transfer "Uku" "Mike" 12 swedbank)
+    print (transfer "Paul" "Uku" 12 seb)
+    print (transfer "Bob" "Mike" (-12) swedbank)
+    print (transfer "Paul" "Mari" 1222 seb)
