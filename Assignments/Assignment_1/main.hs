@@ -71,3 +71,4 @@ main = do
     print (transfer "Bob" "Mike" 20 swedbank)
     print (transfer "Paul" "Mari" 133 seb)
     print (transfer "Frank" "John" 12 lhv)
+    print (transfer "Uku" "John" 12 lhv)
