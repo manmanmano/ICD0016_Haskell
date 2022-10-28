@@ -66,9 +66,10 @@ main = do
     -- task 3
     let swedbank = Map.fromList[("Bob", 100), ("Mike", 50)]
     let seb = Map.fromList[("Mari", 325), ("Paul", 290)]
-    putStrLn "\nTransfers: "
+    putStrLn "\nResults of legal transfers: "
     print (transfer "Bob" "Mike" 20 swedbank)
     print (transfer "Paul" "Mari" 133 seb)
+    putStrLn "Results of illegal transfers: "
     print (transfer "Uku" "Mike" 12 swedbank)
     print (transfer "Paul" "Uku" 12 seb)
     print (transfer "Bob" "Mike" (-12) swedbank)
