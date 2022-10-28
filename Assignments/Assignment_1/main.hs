@@ -14,8 +14,8 @@ toLength n xs = [x | x <- combineStrings xs, length x == n]
 
 -- TASK 2
 palindrome :: String -> Bool
-palindrome string
-    | string == reverse string = True
+palindrome x
+    | x == reverse x = True
     | otherwise = False
 
 
@@ -52,7 +52,7 @@ transfer from to amount bank
 
 main :: IO()
 main = do
-    putStrLn "Hello, Assignment 1!"
+    putStrLn "Hello, Haskell assignment 1!"
     -- task 1
     let strings = ["a", "b", "cd", "def"]
     putStrLn "\nStrings with given length:"
