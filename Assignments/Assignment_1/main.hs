@@ -3,7 +3,7 @@ import qualified Data.Map as Map
 -- TASK 1
 combineStrings :: [String] -> [String]
 combineStrings [] = []
-combineStrings (x:xs) = take (length (x:xs)^2) (mappedStrings ++ combineStrings ys)
+combineStrings (x:xs) = take ((length (x:xs))^2) (mappedStrings ++ combineStrings ys)
     where ys = xs ++ [x]
           mappedStrings = map (x ++) (x:xs)
 
