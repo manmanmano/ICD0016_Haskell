@@ -46,8 +46,8 @@ transfer from to amount bank
     | not (isTransferLegal from to amount bank) = bank
     | otherwise = Map.insert to addMoney (Map.insert from subtractMoney bank)
     where
-        subtractMoney = bank Map.!from - amount
         addMoney = bank Map.!to + amount
+        subtractMoney = bank Map.!from - amount
 
 
 main :: IO()
