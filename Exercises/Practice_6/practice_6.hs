@@ -1,6 +1,6 @@
-import Data.Foldable
 import Data.Functor
-import Data.Monoid
+import Data.Foldable
+
 
 -- Task 2
 incrementAll :: Functor f => Num a => f a -> f a
