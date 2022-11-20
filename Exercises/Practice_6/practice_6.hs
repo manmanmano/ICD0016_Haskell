@@ -1,5 +1,8 @@
-import Data.Functor
-import Data.Foldable
+import Data.Foldable (toList)
+
+
+-- Task 1
+
 
 
 -- Task 2
