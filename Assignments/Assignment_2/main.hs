@@ -1,5 +1,4 @@
-import Text.Read (readMaybe)
-import Data.Maybe (isJust)
+import Data.Char (isDigit)
 
 
 -- Task 1
@@ -8,24 +7,50 @@ import Data.Maybe (isJust)
 --         checkNumber >>=
 --             checkCapital
 
-units :: Int -> Maybe String
-units n 
-    | n == 0 = Just "zero"
-    | n > 0 && n < 10 = Just (unitsWords !! n)
+units :: Int -> String
+units  n
+    | n >= 0 && n < 10 = unitsWords !! n
+    | otherwise = ""
+    where 
+        unitsWords = words "zero one two three four five six seven eight nine"
+
+
+teens :: Int -> Maybe String
+teens n 
+    | n >= 10 && n < 20 = Just (teensWords !! n)
     | otherwise = Nothing
     where 
-        unitsWords = words "one two three four five six seven eight nine"
+        teensWords = words "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
 
 
 tens :: Int -> Maybe String
 tens n 
-    | n > 10 && n < 20 = Just (unitsWords !! n)
+    | n >= 20 && n <= 90 = Just (tensWords !! n)
     | otherwise = Nothing
     where 
-        unitsWords = words "eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
+        tensWords = words "twenty thirty fourty fifty sixty seventy eighty ninety"
+
+
+hundreds :: Int -> Maybe String
+hundreds n 
+    | n >= 100 = Just "hundred"
+    | otherwise = Nothing
+
+
+thousands :: Int -> Maybe String
+thousands n 
+    | n >= 1000 = Just "thousand"
+    | otherwise = Nothing
+
+
+convertNumberToWord :: Int -> String
+convertNumberToWord n
+    | n < 10 = units n
+    | otherwise = "" 
 
 
 -- Task 2
+
 data TwoList a = TwoEmpty | TwoNode a a (TwoList a) deriving Show
 
 
@@ -45,10 +70,15 @@ main = do
     -- Task 1
     putStrLn "\nInput a natural number in the range 0-999999: "
     str <- getLine
-    let num = readMaybe str :: Maybe Integer
-    if isJust num && num <= Just 999999
-        then putStrLn "ok"
-    else do 
+    if all isDigit str 
+        then do 
+            let num = read str :: Int
+            if num >= 0 && num <= 999999
+                then print (convertNumberToWord num)
+            else do        
+            putStrLn "Input must be a natural number less than 1000000!"
+            main
+    else do        
         putStrLn "Input must be a natural number less than 1000000!"
         main
 
