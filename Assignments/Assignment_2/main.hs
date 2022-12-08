@@ -15,37 +15,38 @@ units  n
         unitsWords = words "zero one two three four five six seven eight nine"
 
 
-teens :: Int -> Maybe String
+teens :: Int -> String
 teens n 
-    | n >= 10 && n < 20 = Just (teensWords !! n)
-    | otherwise = Nothing
+    | n >= 10 && n < 20 = teensWords !! (n - 10)
+    | otherwise = ""
     where 
         teensWords = words "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
 
 
-tens :: Int -> Maybe String
+tens :: Int -> String
 tens n 
-    | n >= 20 && n <= 90 = Just (tensWords !! n)
-    | otherwise = Nothing
+    | n >= 20 && n <= 90 = tensWords !! n
+    | otherwise = "" 
     where 
         tensWords = words "twenty thirty fourty fifty sixty seventy eighty ninety"
 
 
-hundreds :: Int -> Maybe String
+hundreds :: Int -> String
 hundreds n 
-    | n >= 100 = Just "hundred"
-    | otherwise = Nothing
+    | n >= 100 = "hundred"
+    | otherwise = ""
 
 
-thousands :: Int -> Maybe String
+thousands :: Int -> String
 thousands n 
-    | n >= 1000 = Just "thousand"
-    | otherwise = Nothing
+    | n >= 1000 = "thousand"
+    | otherwise = ""
 
 
 convertNumberToWord :: Int -> String
 convertNumberToWord n
     | n < 10 = units n
+    | n < 20 = teens n
     | otherwise = "" 
 
 
@@ -77,10 +78,8 @@ main = do
                 then print (convertNumberToWord num)
             else do        
             putStrLn "Input must be a natural number less than 1000000!"
-            main
     else do        
         putStrLn "Input must be a natural number less than 1000000!"
-        main
 
 
     -- Task 2, Part 1
