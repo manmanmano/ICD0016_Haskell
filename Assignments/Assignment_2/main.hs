@@ -96,6 +96,7 @@ path maze place1 place2 = head $ catMaybes pathExists
 
 main :: IO()
 main = do
+    putStrLn "Hello, assignment 2!"
 
     -- Task 1
     tryNumConversion
