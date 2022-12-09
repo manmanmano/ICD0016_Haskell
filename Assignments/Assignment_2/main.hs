@@ -1,29 +1,19 @@
 import Data.Char ( isDigit )
 import Data.List ( intercalate )
+import Data.Maybe ( catMaybes )
 
 
 -- Task 1 ----------------------------------------------------------------------------------------------------------------------
 
-units :: Int -> String
-units n
-    | n > 0 && n < 10 = unitsWords !! fromIntegral (n - 1)
-    | otherwise = error "units - not a one digit value!"
-    where
-        unitsWords = words "one two three four five six seven eight nine"
+units :: [String]
+units = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
-teens :: Int -> String
-teens n
-    | n >= 10 && n < 20 = unitsWords !! fromIntegral (n - 11)
-    | otherwise = error "teens - not a two digit value!"
-    where
-        unitsWords = words "eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
+teens :: [String]
+teens = ["", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "ninteen"] -- add blank to fix wrong index
 
-tens :: Int -> String
-tens n
-    | n >= 2 && n < 10 = tensWords !! fromIntegral (n - 1)
-    | otherwise = error "tens - not a two digit value!"
-    where
-        tensWords = words "ten twenty thirty fourty fifty sixty seventy eighty ninety"
+tens :: [String]
+tens = ["", "ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"] -- add blank to fix wrong index
+
 
 groups :: [String]
 groups = ["", " thousand"]
@@ -31,10 +21,10 @@ groups = ["", " thousand"]
 groupUntilThousands :: Int -> String
 groupUntilThousands n
     | n == 0 = ""
-    | n < 10 = units n
-    | n < 20 = teens n
-    | n < 100 = tens dt ++ ' ' : groupUntilThousands mt
-    | n < 1000 = units dh ++ " hundred " ++ groupUntilThousands mh
+    | n < 10 = units !! n
+    | n < 20 = teens !! n
+    | n < 100 = tens !! dt ++ ' ' : groupUntilThousands mt
+    | n < 1000 = units !! dh ++ " hundred " ++ groupUntilThousands mh
     | otherwise = error "groupUntilThousands - not a 3-digit group!"
     where
         (dt, mt) = n `divMod` 10
@@ -63,10 +53,10 @@ tryNumConversion = do
             let num = read str :: Int
             if num >= 0 && num <= 999999
                 then print (convertNumToWord num)
-            else do 
+            else do
                 putStrLn "Input must be a natural number less than 10^6!"
                 tryNumConversion
-    else do 
+    else do
         putStrLn "Input must be a natural number less than 10^6!"
         tryNumConversion
 
@@ -83,6 +73,26 @@ instance Foldable TwoList where
     foldr func initialValue TwoEmpty = initialValue
     foldr func initialValue (TwoNode first second list) = func first (func second (foldr func initialValue list))
 
+
+-- Task 3 ----------------------------------------------------------------------------------------------------------------------
+
+maze :: [(String,[String])]
+maze = [("Entry",["Pit","Corridor 1"])
+    , ("Pit",[])
+    , ("Corridor 1",["Entry","Dead end"])
+    , ("Corridor 2",["Corridor 3"])
+    , ("Corridor 3",["Corridor 2"])
+    , ("Dead end",["Corridor 1"])]
+
+
+path :: [(String, [String])] -> String -> String -> Bool
+path maze place1 place2 = head $ catMaybes pathExists
+    where
+        visit = lookup place1 maze
+        pathExists = [fmap (elem place2) visit]
+
+
+-- Main ----------------------------------------------------------------------------------------------------------------------
 
 main :: IO()
 main = do
@@ -108,6 +118,15 @@ main = do
     print(length (TwoNode 1 2 (TwoNode 3 4 TwoEmpty)))
 
     -- Task 3
+    putStrLn "\nVisit the maze: "
+    putStr "From Entry to Pit: "
+    print (path maze "Entry" "Pit")
+    putStr "From Pit to Entry: "
+    print (path maze "Pit" "Entry")
+    putStr "From Dead end to Corridor 1: "
+    print (path maze "Dead end" "Corridor 1")
+    putStr "From Corridor 1 to Corridor 3: "
+    print (path maze "Corridor 1" "Corridor 3")
 
 
     putStrLn "\nDone!"
