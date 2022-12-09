@@ -50,7 +50,6 @@ splitFromThousands n
 convertNumToWord :: Int -> String
 convertNumToWord n
     | n == 0 = "zero"
-    | n >= 10^6 = error "convertNumToWord - does not support natural numbers greater than 999999!"
     | otherwise = intercalate " and " (reverse $ zipWith (++) wordGroups groups)
     where
         wordGroups = map groupUntilThousands $ splitFromThousands n
@@ -65,10 +64,10 @@ tryNumConversion = do
             if num >= 0 && num <= 999999
                 then print (convertNumToWord num)
             else do 
-                putStrLn "Input must be a natural number less than 1000000!"
+                putStrLn "Input must be a natural number less than 10^6!"
                 tryNumConversion
     else do 
-        putStrLn "Input must be a natural number less than 1000000!"
+        putStrLn "Input must be a natural number less than 10^6!"
         tryNumConversion
 
 
