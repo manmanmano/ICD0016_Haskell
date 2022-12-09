@@ -1,53 +1,42 @@
-import Data.Char (isDigit)
-
+import Data.Char
+import Data.List
 
 -- Task 1
--- readNames s =
---     split s >>=
---         checkNumber >>=
---             checkCapital
+units :: (Integral a, Ord a) => a -> String
+units n
+    | n > 0 && n < 10 = unitsWords !! fromIntegral (n - 1)
+    | otherwise = error "units: not a one digit value"
+    where
+        unitsWords = words "one two three four five six seven eight nine"
 
-units :: Int -> String
-units  n
-    | n >= 0 && n < 10 = unitsWords !! n
-    | otherwise = ""
-    where 
-        unitsWords = words "zero one two three four five six seven eight nine"
+teens :: (Integral a, Ord a) => a -> String
+teens n
+    | n >= 10 && n < 20 = unitsWords !! fromIntegral (n - 10)
+    | otherwise = error "teens: not a two digit value"
+    where
+        unitsWords = words "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
 
+tens :: (Integral a, Ord a) => a -> String
+tens n
+    | n >= 20 && n <= 90 = unitsWords !! fromIntegral ((n / 10) - 1) -- e.g 90, index for ninety is 7, do 90 / 10 = 9 - 2 = 7
+    | otherwise = error "tens: not a two digit value"
+    where
+        unitsWords = words "twenty thirty fourty fifty sixty seventy eighty ninety"
 
-teens :: Int -> String
-teens n 
-    | n >= 10 && n < 20 = teensWords !! (n - 10)
-    | otherwise = ""
-    where 
-        teensWords = words "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
+thousands :: String
+thousands = "thousand"
 
-
-tens :: Int -> String
-tens n 
-    | n >= 20 && n <= 90 = tensWords !! n
-    | otherwise = "" 
-    where 
-        tensWords = words "twenty thirty fourty fifty sixty seventy eighty ninety"
-
-
-hundreds :: Int -> String
-hundreds n 
-    | n >= 100 = "hundred"
-    | otherwise = ""
-
-
-thousands :: Int -> String
-thousands n 
-    | n >= 1000 = "thousand"
-    | otherwise = ""
-
-
-convertNumberToWord :: Int -> String
-convertNumberToWord n
+groupUntilThousands:: (Integral a, Show a) => a -> String
+groupUntilThousands n
+    | n == 0 = ""
     | n < 10 = units n
     | n < 20 = teens n
-    | otherwise = "" 
+    | n < 100 = tens dt ++ ' ' : groupUntilThousands mt
+    | n < 1000 = units dh ++ " hundred " ++ groupUntilThousands mh
+    | otherwise = error "Not a 3-digit group"
+    where 
+        (dt, mt) = n `divMod` 10
+        (dh, mh) = n `divMod` 100
 
 
 -- Task 2
@@ -69,16 +58,16 @@ main :: IO()
 main = do
 
     -- Task 1
-    putStrLn "\nInput a natural number in the range 0-999999: "
+    putStrLn "\nInput a natural number in the range 1-999999: "
     str <- getLine
-    if all isDigit str 
-        then do 
+    if all isDigit str
+        then do
             let num = read str :: Int
             if num >= 0 && num <= 999999
-                then print (convertNumberToWord num)
-            else do        
+                then print (convertNumToWord num)
+            else do
             putStrLn "Input must be a natural number less than 1000000!"
-    else do        
+    else do
         putStrLn "Input must be a natural number less than 1000000!"
 
 
