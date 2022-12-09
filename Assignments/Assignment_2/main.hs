@@ -25,7 +25,7 @@ groupUntilThousands n
     | n < 20 = teens !! n
     | n < 100 = tens !! dt ++ ' ' : groupUntilThousands mt
     | n < 1000 = units !! dh ++ " hundred " ++ groupUntilThousands mh
-    | otherwise = error "groupUntilThousands - not a 3-digit group!"
+    | otherwise = error "groupUntilThousands - not a 3-digit group!" -- used for debugging purposes
     where
         (dt, mt) = n `divMod` 10
         (dh, mh) = n `divMod` 100
@@ -48,7 +48,7 @@ tryNumConversion :: IO ()
 tryNumConversion = do
     putStr "\nInput a natural number in the range 1-999999: "
     str <- getLine
-    if all isDigit str
+    if all isDigit str && str /= ""
         then do
             let num = read str :: Int
             if num >= 0 && num <= 999999
@@ -57,7 +57,7 @@ tryNumConversion = do
                 putStrLn "Input must be a natural number less than 10^6!"
                 tryNumConversion
     else do
-        putStrLn "Input cannot contain other characters than digits!"
+        putStrLn "Input must contain only digits!" 
         tryNumConversion
 
 
@@ -96,7 +96,7 @@ path maze place1 place2 = head $ catMaybes pathExists
 
 main :: IO()
 main = do
-    putStrLn "Hello, assignment 2!"
+    putStrLn "\nHello, assignment 2!"
 
     -- Task 1
     tryNumConversion
