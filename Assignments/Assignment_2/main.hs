@@ -20,7 +20,7 @@ teens n
 
 tens :: Int -> String
 tens n
-    | n >= 2 && n < 10 = tensWords !! fromIntegral (n - 1) -- e.g 90, because of divMod in groupUntilThousands passed value is 9  
+    | n >= 2 && n < 10 = tensWords !! fromIntegral (n - 1)
     | otherwise = error "tens - not a two digit value!"
     where
         tensWords = words "ten twenty thirty fourty fifty sixty seventy eighty ninety"
