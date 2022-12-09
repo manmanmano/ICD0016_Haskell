@@ -1,55 +1,56 @@
-import Data.Char
-import Data.List
+import Data.Char ( isDigit )
+import Data.List ( intercalate )
+
 
 -- Task 1 ----------------------------------------------------------------------------------------------------------------------
 
-units :: (Integral a, Ord a) => a -> String
+units :: Int -> String
 units n
     | n > 0 && n < 10 = unitsWords !! fromIntegral (n - 1)
-    | otherwise = error "units: not a one digit value"
+    | otherwise = error "units - not a one digit value!"
     where
         unitsWords = words "one two three four five six seven eight nine"
 
-teens :: (Integral a, Ord a) => a -> String
+teens :: Int -> String
 teens n
     | n >= 10 && n < 20 = unitsWords !! fromIntegral (n - 11)
-    | otherwise = error "teens: not a two digit value"
+    | otherwise = error "teens - not a two digit value!"
     where
         unitsWords = words "eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen"
 
-tens :: (Integral a, Ord a) => a -> String
+tens :: Int -> String
 tens n
     | n >= 2 && n < 10 = tensWords !! fromIntegral (n - 1) -- e.g 90, because of divMod in groupUntilThousands passed value is 9  
-    | otherwise = error "tens: not a two digit value"
+    | otherwise = error "tens - not a two digit value!"
     where
         tensWords = words "ten twenty thirty fourty fifty sixty seventy eighty ninety"
 
 groups :: [String]
 groups = ["", " thousand"]
 
-groupUntilThousands:: (Integral a, Ord a) => a -> String
+groupUntilThousands :: Int -> String
 groupUntilThousands n
     | n == 0 = ""
     | n < 10 = units n
     | n < 20 = teens n
     | n < 100 = tens dt ++ ' ' : groupUntilThousands mt
     | n < 1000 = units dh ++ " hundred " ++ groupUntilThousands mh
-    | otherwise = error "Not a 3-digit group"
+    | otherwise = error "groupUntilThousands - not a 3-digit group!"
     where
         (dt, mt) = n `divMod` 10
         (dh, mh) = n `divMod` 100
 
-splitFromThousands :: (Integral a, Ord a) => a -> [a]
+splitFromThousands :: Int -> [Int]
 splitFromThousands n
     | d == 0 = [n]
     | otherwise = m : splitFromThousands d
     where
         (d, m) = n `divMod` 1000
 
-convertNumToWord :: (Integral a, Ord a) => a -> String
+convertNumToWord :: Int -> String
 convertNumToWord n
     | n == 0 = "zero"
-    | n >= 10^6 = error "Does not support natural numbers greater than 999999!"
+    | n >= 10^6 = error "convertNumToWord - does not support natural numbers greater than 999999!"
     | otherwise = intercalate " and " (reverse $ zipWith (++) wordGroups groups)
     where
         wordGroups = map groupUntilThousands $ splitFromThousands n
@@ -75,11 +76,9 @@ tryNumConversion = do
 
 data TwoList a = TwoEmpty | TwoNode a a (TwoList a) deriving Show
 
-
 instance Functor TwoList where
     fmap func TwoEmpty = TwoEmpty
     fmap func (TwoNode first second list) = TwoNode (func first) (func second) (fmap func list)
-
 
 instance Foldable TwoList where
     foldr func initialValue TwoEmpty = initialValue
