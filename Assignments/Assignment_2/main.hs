@@ -57,7 +57,7 @@ tryNumConversion = do
                 putStrLn "Input must be a natural number less than 10^6!"
                 tryNumConversion
     else do
-        putStrLn "Input must be a natural number less than 10^6!"
+        putStrLn "Input cannot contain other characters than digits!"
         tryNumConversion
 
 
