@@ -1,4 +1,5 @@
 import qualified Data.Map as Map
+import Data.Maybe (isNothing)
 
 -- TASK 1
 combineStrings :: [String] -> [String]
@@ -34,8 +35,8 @@ palindromeHalfs xs = map firstHalf (filter palindrome xs)
 -- TASK 3
 isTransferLegal :: String -> String -> Int -> Map.Map String Int -> Bool
 isTransferLegal from to amount bank
-    | Map.lookup from bank == Nothing = False
-    | Map.lookup to bank == Nothing = False
+    | isNothing (Map.lookup from bank) = False
+    | isNothing (Map.lookup to bank) = False
     | amount < 0 = False
     | bank Map.!from - amount < 0 = False
     | otherwise = True
